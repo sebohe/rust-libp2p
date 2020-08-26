@@ -33,7 +33,7 @@ fuzz_target!(|data: &[u8]| {
     }
 });
 
-// Create a Gossipsub and connect a peer
+// Create a Gossipsub isntance.
 fn create_gossipsub() -> Gossipsub {
     let mut gs_config_builder = GossipsubConfigBuilder::new();
     gs_config_builder.validation_mode(ValidationMode::Anonymous);
