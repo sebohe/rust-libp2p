@@ -1,11 +1,14 @@
 #![no_main]
-use libfuzzer_sys::fuzz_target;
-use libp2p_gossipsub::{Gossipsub, GossipsubConfigBuilder, protocol::GossipsubCodec, ValidationMode, HandlerEvent, MessageAuthenticity, PeerKind};
 use bytes::BytesMut;
-use unsigned_varint::codec;
 use futures_codec::Decoder;
-use libp2p_swarm::NetworkBehaviour;
+use libfuzzer_sys::fuzz_target;
 use libp2p_core::{connection::ConnectionId, PeerId};
+use libp2p_gossipsub::{
+    protocol::GossipsubCodec, Gossipsub, GossipsubConfigBuilder, HandlerEvent, MessageAuthenticity,
+    PeerKind, ValidationMode,
+};
+use libp2p_swarm::NetworkBehaviour;
+use unsigned_varint::codec;
 
 fuzz_target!(|data: &[u8]| {
     let mut codec = GossipsubCodec::new(codec::UviBytes::default(), ValidationMode::Anonymous);
@@ -18,7 +21,11 @@ fuzz_target!(|data: &[u8]| {
             // connect peer and set kind
             let peer = PeerId::random(); // TODO: Maybe it's better not to use random for fuzzing.
             gs.inject_connected(&peer);
-            gs.inject_event(peer.clone(), ConnectionId::new(0), HandlerEvent::PeerKind(PeerKind::Gossipsubv1_1));
+            gs.inject_event(
+                peer.clone(),
+                ConnectionId::new(0),
+                HandlerEvent::PeerKind(PeerKind::Gossipsubv1_1),
+            );
 
             // Now inject our fuzz generated rpc
             gs.inject_event(peer.clone(), ConnectionId::new(0), rpc);
