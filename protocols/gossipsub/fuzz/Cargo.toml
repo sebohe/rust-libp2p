@@ -33,5 +33,13 @@ name = "fuzz_gossipsub_decode_strict"
 path = "fuzz_targets/fuzz_gossipsub_decode_strict.rs"
 
 [[bin]]
+name = "fuzz_gossipsub_decode_permissive"
+path = "fuzz_targets/fuzz_gossipsub_decode_permissive.rs"
+
+[[bin]]
+name = "fuzz_gossipsub_decode_none"
+path = "fuzz_targets/fuzz_gossipsub_decode_none.rs"
+
+[[bin]]
 name = "fuzz_gossipsub_rpc"
 path = "fuzz_targets/fuzz_gossipsub_rpc.rs"
